@@ -1,4 +1,4 @@
-import Grid2 from "@mui/material/Unstable_Grid2";
+import Grid2 from "@mui/material/Unstable_Grid2"
 import {
   Box,
   Paper,
@@ -10,36 +10,39 @@ import {
   Button,
   Divider,
   Typography,
-} from "@mui/material";
-import axios from "axios";
+} from "@mui/material"
+import axios from "axios"
 
-import { useState } from "react";
+import { useState } from "react"
 
 const Calculator = () => {
-  const [operation, setOperation] = useState("");
-  const [result, setResult] = useState("");
+  const [operation, setOperation] = useState("")
+  const [result, setResult] = useState("")
 
   const handleChange = (e) => {
-    setOperation(e.target.value);
-  };
+    setOperation(e.target.value)
+  }
 
   const handleCalculate = (e) => {
-    e.preventDefault();
+    console.log("first ", typeof e.target.first.value, e.target.first.value)
+    console.log("second", typeof e.target.second.value, e.target.second.value)
+
+    e.preventDefault()
     const query = {
       operation: operation,
       first: e.target.first.value,
       second: e.target.second.value,
-    };
+    }
 
     axios
       .get(`/api/calculate/${query.operation}/${query.first}/${query.second}`)
       .then((res) => {
-        setResult(res.data.result);
+        setResult(res.data.result)
       })
       .catch((err) => {
-        setResult(err.response.data.message);
-      });
-  };
+        setResult(err.response.data.message)
+      })
+  }
 
   return (
     <form onSubmit={handleCalculate}>
@@ -73,7 +76,7 @@ const Calculator = () => {
         </Grid2>
         <Grid2 xs={12}>
           <FormControl fullWidth>
-            <Button variant="contained" type="submit">
+            <Button variant="contained" type="submit" id="calculateButton">
               Calculate
             </Button>
           </FormControl>
@@ -92,7 +95,6 @@ const Calculator = () => {
         </Grid2>
       </Grid2>
     </form>
-  );
-};
-export default Calculator;
-
+  )
+}
+export default Calculator
