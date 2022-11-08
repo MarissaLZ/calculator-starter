@@ -8,8 +8,15 @@ export default function handler(req, res) {
       )
     }
 
+    //here we grab the params and store them into
+    // console.log("req", req)
+    // console.log("req.query.params", req.query.params) //[ 'add', '3', '1' ]
+
+    //function converts query params to an key/value pairs in an object
     const params = extractParams(req.query.params)
+    // converts to { operation: 'add', first: 3, second: 1 }
     console.log("params", params)
+    console.log("operation", params.operation)
     let result
     switch (params.operation) {
       case "add":
@@ -27,14 +34,19 @@ export default function handler(req, res) {
       default:
         throw new Error(`Unsupported operation ${params.operation}`)
     }
+    //status and result
     res.status(200).json({ result })
   } catch (e) {
+    //error
     res.status(500).json({ message: e.message })
   }
 }
 
 function extractParams(queryParams) {
+  console.log("queryparams", queryParams)
+
   if (queryParams.length !== 3) {
+    console.log("throws error in length test")
     throw new Error(
       `Query params should have 3 items. Received ${queryParams.length}: ${queryParams}`
     )

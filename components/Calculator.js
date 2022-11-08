@@ -3,14 +3,14 @@ import {
   Box,
   Paper,
   TextField,
-  InputLabel,
   MenuItem,
   FormControl,
-  Select,
+  NativeSelect,
   Button,
   Divider,
   Typography,
 } from "@mui/material"
+import { OutlinedInput } from "@mui/material"
 import axios from "axios"
 
 import { useState } from "react"
@@ -24,9 +24,6 @@ const Calculator = () => {
   }
 
   const handleCalculate = (e) => {
-    console.log("first ", typeof e.target.first.value, e.target.first.value)
-    console.log("second", typeof e.target.second.value, e.target.second.value)
-
     e.preventDefault()
     const query = {
       operation: operation,
@@ -38,14 +35,18 @@ const Calculator = () => {
       .get(`/api/calculate/${query.operation}/${query.first}/${query.second}`)
       .then((res) => {
         setResult(res.data.result)
+        console.log("res", res)
+        console.log("res.data.result", res.data.result)
       })
       .catch((err) => {
-        setResult(err.response.data.message)
+        err.response.data.message
+          ? setResult(err.response.data.message)
+          : setResult(err.message)
       })
   }
 
   return (
-    <form onSubmit={handleCalculate}>
+    <form id="calculator-form" onSubmit={handleCalculate}>
       <Grid2 container spacing={1}>
         <Grid2 xs={5}>
           <FormControl fullWidth>
@@ -54,19 +55,21 @@ const Calculator = () => {
         </Grid2>
         <Grid2 xs={2}>
           <FormControl fullWidth>
-            <Select
-              id="operation-select"
-              value={operation}
+            <NativeSelect
+              input={<OutlinedInput />}
+              defaultValue={""}
+              inputProps={{
+                name: "operation",
+                id: "operation",
+              }}
               onChange={handleChange}
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={"add"}>+</MenuItem>
-              <MenuItem value={"subtract"}>-</MenuItem>
-              <MenuItem value={"multiply"}>*</MenuItem>
-              <MenuItem value={"divide"}>/</MenuItem>
-            </Select>
+              <option value="">Op</option>
+              <option value={"add"}>+</option>
+              <option value={"subtract"}>-</option>
+              <option value={"multiply"}>*</option>
+              <option value={"divide"}>/</option>
+            </NativeSelect>
           </FormControl>
         </Grid2>
         <Grid2 xs={5}>
@@ -76,7 +79,7 @@ const Calculator = () => {
         </Grid2>
         <Grid2 xs={12}>
           <FormControl fullWidth>
-            <Button variant="contained" type="submit" id="calculateButton">
+            <Button variant="contained" type="submit">
               Calculate
             </Button>
           </FormControl>
@@ -87,7 +90,7 @@ const Calculator = () => {
         <Grid2 xs={12}>
           <Box>
             <Paper>
-              <Typography align="center" variant="h3" gutterBottom>
+              <Typography id="result" align="center" variant="h3" gutterBottom>
                 {result}
               </Typography>
             </Paper>

@@ -9,9 +9,11 @@ import Calculator from "../components/Calculator"
 //test the calc button and its callback handleCalculate?
 
 // describe("Calculator Component", () => {
+//   //const handleCalculate = jest.fn
 //   test("renders a button", () => {
 //     render(<Calculator />)
-//     expect(screen.getAllByRole("button")).toBeInTheDocument()
+//     //screen.debug()
+//     expect(screen.getByRole("button")).toBeInTheDocument()
 //   })
 // })
 
