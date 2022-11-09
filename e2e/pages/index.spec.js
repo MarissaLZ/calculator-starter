@@ -39,9 +39,7 @@ test(" calculator addition", async ({ page }) => {
 test("clicking the test link routes to /test route", async ({ page }) => {
   await page.goto("/")
   //locate the link
-
   const findLink = page.getByRole("link")
-
   await expect(findLink).toHaveAttribute("href", "/test")
   //click the link
   await findLink.click()

@@ -18,17 +18,20 @@ import { useState } from "react"
 const Calculator = () => {
   const [operation, setOperation] = useState("")
   const [result, setResult] = useState("")
-
+  const [value, setValue] = useState({ first: "", second: "" })
   const handleChange = (e) => {
     setOperation(e.target.value)
+  }
+  const handleInput = (e) => {
+    setValue({ ...value, [e.target.id]: e.target.value })
   }
 
   const handleCalculate = (e) => {
     e.preventDefault()
     const query = {
       operation: operation,
-      first: e.target.first.value,
-      second: e.target.second.value,
+      first: value.first,
+      second: value.second,
     }
 
     axios
@@ -46,11 +49,17 @@ const Calculator = () => {
   }
 
   return (
-    <form id="calculator-form" onSubmit={handleCalculate}>
+    <form id="calculator-form" aria-label="form" onSubmit={handleCalculate}>
       <Grid2 container spacing={1}>
         <Grid2 xs={5}>
           <FormControl fullWidth>
-            <TextField id="first" label="First Number" variant="outlined" />
+            <TextField
+              id="first"
+              label="First Number"
+              variant="outlined"
+              onChange={handleInput}
+              value={value.first}
+            />
           </FormControl>
         </Grid2>
         <Grid2 xs={2}>
@@ -74,7 +83,13 @@ const Calculator = () => {
         </Grid2>
         <Grid2 xs={5}>
           <FormControl fullWidth>
-            <TextField id="second" label="Second Number" variant="outlined" />
+            <TextField
+              id="second"
+              label="Second Number"
+              variant="outlined"
+              onChange={handleInput}
+              value={value.second}
+            />
           </FormControl>
         </Grid2>
         <Grid2 xs={12}>
@@ -90,9 +105,19 @@ const Calculator = () => {
         <Grid2 xs={12}>
           <Box>
             <Paper>
-              <Typography id="result" align="center" variant="h3" gutterBottom>
-                {result}
-              </Typography>
+              {result && (
+                <Typography
+                  id="result"
+                  data-testid="result"
+                  align="center"
+                  variant="h3"
+                  gutterBottom
+                  role="heading"
+                  aria-level="3"
+                >
+                  {`${result}`}
+                </Typography>
+              )}
             </Paper>
           </Box>
         </Grid2>

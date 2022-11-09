@@ -1,21 +1,79 @@
 import * as React from "react"
-import { render, screen, fireEvent } from "@testing-library/react"
+import "@testing-library/jest-dom"
+import { expect, jest, test, mockImplementationOnce } from "@jest/globals"
+import { render, screen, fireEvent, act, waitFor } from "@testing-library/react"
+import userEvent from "@testing-library/user-event"
 import { add, subtract, multiply, divide } from "../utils/calculate"
 import Calculator from "../components/Calculator"
-
-//entering a a space
-//null
-//test for empty input
-//test the calc button and its callback handleCalculate?
+import Home from "../pages/index"
+import axios from "axios"
+jest.mock("axios")
 
 // describe("Calculator Component", () => {
-//   //const handleCalculate = jest.fn
 //   test("renders a button", () => {
 //     render(<Calculator />)
-//     //screen.debug()
-//     expect(screen.getByRole("button")).toBeInTheDocument()
+//     const handleCalculate = jest.fn()
+
+//     fireEvent.click(screen.getByRole("button"))
+//     expect(handleCalculate).toHaveBeenCalledTimes(1)
 //   })
 // })
+
+//forgot to import jest-dom
+describe("link on home page", () => {
+  test("Link", () => {
+    render(<Home />)
+    const linkElement = screen.getAllByRole("link")
+    expect(linkElement[0]).toBeInTheDocument()
+    expect(linkElement[0].getAttribute("href")).toBe("/test")
+  })
+})
+
+describe("Calculator Component", () => {
+  test("renders elements in Calculator correctly", () => {
+    render(<Calculator />)
+    expect(screen.getByRole("form")).toBeInTheDocument()
+    expect(screen.getByLabelText("First Number")).toBeInTheDocument()
+    expect(screen.getByLabelText("Second Number")).toBeInTheDocument()
+    expect(screen.getByRole("option", { name: "+" })).toBeInTheDocument()
+    expect(screen.getByRole("option", { name: "-" })).toBeInTheDocument()
+    expect(screen.getByRole("option", { name: "*" })).toBeInTheDocument()
+    expect(screen.getByRole("button")).toBeInTheDocument()
+    //expect(screen.getByTestId("result")).toBeInTheDocument()
+  })
+})
+
+describe("number input", () => {
+  test("adding 1 + 2 ", async () => {
+    render(<Calculator />)
+    const form = screen.getByRole("form")
+    const firstNum = screen.getByLabelText("First Number")
+    const secondNum = screen.getByLabelText("Second Number")
+    const addOperation = screen.getByRole("option", { name: "+" })
+    const calculateButton = screen.getByRole("button")
+    //const result = screen.getByTestId("result")
+
+    fireEvent.change(addOperation, {
+      target: { value: "add" },
+    })
+    fireEvent.change(firstNum, { target: { value: "2" } })
+    fireEvent.change(secondNum, { target: { value: "1" } })
+    userEvent.click(calculateButton)
+
+    expect(screen.getByDisplayValue("2")).toBeInTheDocument()
+    expect(screen.getByDisplayValue("1")).toBeInTheDocument()
+
+    //fireEvent.click(calculateButton)
+    //fireEvent.submit(form)
+
+    //waitFor(() => expect(screen.findByTestId("result")).toBeInTheDocument())
+    // waitFor(() => expect(screen.findByDisplayValue("3")).toBeInTheDocument())
+    //expect(await screen.findByTestId("result")).toBeInTheDocument()
+    // fireEvent.submit(screen.getByRole("form", {
+    //     target: {
+    //       elements: { operation: { value: "add" },first:  { value: "2"  },   second: { value: "1" },}, },}))
+  })
+})
 
 describe("add functionality", () => {
   test("adds 1+1 to equal 2", () => {

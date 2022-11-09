@@ -17,7 +17,7 @@ const config = {
   retries: 2,
   // Artifacts folder where screenshots, videos, and traces are stored.
   outputDir: "test-results/",
-  fullyParallel: true,
+  // fullyParallel: true,
   reporter: "html",
 
   // Run your local dev server before starting the tests:

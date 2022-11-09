@@ -10,7 +10,9 @@ test.describe("api testing", () => {
     expect(await result.json()).toEqual({ result: 4 })
   })
 
-  test("api get request failure", async ({ request }) => {
+  test("api get request failure if only the first input has a valid parameter", async ({
+    request,
+  }) => {
     //call the api
     const result = await request.get("/api/calculate/add/2", {})
     await expect(result).not.toBeOK()
@@ -20,4 +22,8 @@ test.describe("api testing", () => {
   })
 })
 
-//test an api failure?
+test("api get request fails if there is no input", async ({ request }) => {
+  //call the api
+  const result = await request.get("/api/calculate", {})
+  await expect(result).not.toBeOK()
+})
