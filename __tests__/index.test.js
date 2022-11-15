@@ -6,18 +6,44 @@ import userEvent from "@testing-library/user-event"
 import { add, subtract, multiply, divide } from "../utils/calculate"
 import Calculator from "../components/Calculator"
 import Home from "../pages/index"
-import axios from "axios"
-jest.mock("axios")
+//import axios from "axios"
+import TestButton from "../components/TestButton"
+//jest.mock("axios")
+import { rest } from "msw"
+import { setupServer } from "msw/node"
 
-// describe("Calculator Component", () => {
-//   test("renders a button", () => {
-//     render(<Calculator />)
-//     const handleCalculate = jest.fn()
+const server = setupServer(
+  //requesy may go to default port
+  rest.get("http://localhost/api/calculate/*", (req, res, ctx) => {
+    //can access request.params
+    return res(ctx.status(200), ctx.json({ result: 3 }))
+  })
+)
+beforeAll(() => server.listen())
+afterEach(() => server.resetHandlers())
+afterAll(() => server.close())
 
-//     fireEvent.click(screen.getByRole("button"))
-//     expect(handleCalculate).toHaveBeenCalledTimes(1)
-//   })
-// })
+//this is not a good approach and is not unit  testing
+test("loading result", async () => {
+  render(<Calculator />)
+  const addOperation = screen.getByRole("option", { name: "+" })
+  const firstNum = screen.getByLabelText("First Number")
+  const secondNum = screen.getByLabelText("Second Number")
+  //must add the frist and second number and operation
+  // fireEvent.change(addOperation, {
+  //   target: { value: "add" },
+  // })
+  // fireEvent.change(firstNum, { target: { value: "2" } })
+  // fireEvent.change(secondNum, { target: { value: "1" } })
+  // fireEvent.click(screen.getByTestId("calcBttn"))
+  // await waitFor(() => screen.findByTestId("result"))
+  // expect(screen.findByTestId("result")).toHaveTextContent("3")
+
+  await userEvent.click(screen.getByTestId("calcBttn"))
+  setTimeout(() => {
+    expect(screen.findByTestId("result")).toHaveTextContet("3")
+  }, 1000)
+})
 
 //forgot to import jest-dom
 describe("link on home page", () => {
@@ -38,19 +64,37 @@ describe("Calculator Component", () => {
     expect(screen.getByRole("option", { name: "+" })).toBeInTheDocument()
     expect(screen.getByRole("option", { name: "-" })).toBeInTheDocument()
     expect(screen.getByRole("option", { name: "*" })).toBeInTheDocument()
-    expect(screen.getByRole("button")).toBeInTheDocument()
+    expect(screen.getByTestId("calcBttn")).toBeInTheDocument()
     //expect(screen.getByTestId("result")).toBeInTheDocument()
+  })
+})
+describe("TestButton Component", () => {
+  test("passing props", () => {
+    render(<TestButton text="testing passing props" />)
+    expect(screen.getByText("testing passing props")).toBeInTheDocument()
+  })
+  test("clicking the test button calls the callback handler  ", () => {
+    //using jest to create a mocked function
+    const setIsToggled = jest.fn()
+    render(
+      <TestButton text="testing passing props" setIsToggled={setIsToggled} />
+    )
+    const testButton = screen.getByText("testing passing props")
+    //fire event on button
+    fireEvent.click(testButton)
+    //asserting the callback handler function is called
+    expect(setIsToggled).toHaveBeenCalled()
   })
 })
 
 describe("number input", () => {
-  test("adding 1 + 2 ", async () => {
+  test("testing number input ", async () => {
     render(<Calculator />)
     const form = screen.getByRole("form")
     const firstNum = screen.getByLabelText("First Number")
     const secondNum = screen.getByLabelText("Second Number")
     const addOperation = screen.getByRole("option", { name: "+" })
-    const calculateButton = screen.getByRole("button")
+    const calculateButton = screen.getByTestId("calcBttn")
     //const result = screen.getByTestId("result")
 
     fireEvent.change(addOperation, {
@@ -69,9 +113,6 @@ describe("number input", () => {
     //waitFor(() => expect(screen.findByTestId("result")).toBeInTheDocument())
     // waitFor(() => expect(screen.findByDisplayValue("3")).toBeInTheDocument())
     //expect(await screen.findByTestId("result")).toBeInTheDocument()
-    // fireEvent.submit(screen.getByRole("form", {
-    //     target: {
-    //       elements: { operation: { value: "add" },first:  { value: "2"  },   second: { value: "1" },}, },}))
   })
 })
 

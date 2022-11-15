@@ -12,7 +12,6 @@ import {
 } from "@mui/material"
 import { OutlinedInput } from "@mui/material"
 import axios from "axios"
-
 import { useState } from "react"
 
 const Calculator = () => {
@@ -49,80 +48,82 @@ const Calculator = () => {
   }
 
   return (
-    <form id="calculator-form" aria-label="form" onSubmit={handleCalculate}>
-      <Grid2 container spacing={1}>
-        <Grid2 xs={5}>
-          <FormControl fullWidth>
-            <TextField
-              id="first"
-              label="First Number"
-              variant="outlined"
-              onChange={handleInput}
-              value={value.first}
-            />
-          </FormControl>
+    <>
+      <form id="calculator-form" aria-label="form" onSubmit={handleCalculate}>
+        <Grid2 container spacing={1}>
+          <Grid2 xs={5}>
+            <FormControl fullWidth>
+              <TextField
+                id="first"
+                label="First Number"
+                variant="outlined"
+                onChange={handleInput}
+                value={value.first}
+              />
+            </FormControl>
+          </Grid2>
+          <Grid2 xs={2}>
+            <FormControl fullWidth>
+              <NativeSelect
+                input={<OutlinedInput />}
+                defaultValue={""}
+                inputProps={{
+                  name: "operation",
+                  id: "operation",
+                }}
+                onChange={handleChange}
+              >
+                <option value="">Op</option>
+                <option value={"add"}>+</option>
+                <option value={"subtract"}>-</option>
+                <option value={"multiply"}>*</option>
+                <option value={"divide"}>/</option>
+              </NativeSelect>
+            </FormControl>
+          </Grid2>
+          <Grid2 xs={5}>
+            <FormControl fullWidth>
+              <TextField
+                id="second"
+                label="Second Number"
+                variant="outlined"
+                onChange={handleInput}
+                value={value.second}
+              />
+            </FormControl>
+          </Grid2>
+          <Grid2 xs={12}>
+            <FormControl fullWidth>
+              <Button variant="contained" type="submit" data-testid="calcBttn">
+                Calculate
+              </Button>
+            </FormControl>
+          </Grid2>
+          <Grid2 xs={12}>
+            <Divider />
+          </Grid2>
+          <Grid2 xs={12}>
+            <Box>
+              <Paper>
+                {result && (
+                  <Typography
+                    id="result"
+                    data-testid="result"
+                    align="center"
+                    variant="h3"
+                    gutterBottom
+                    role="heading"
+                    aria-level="3"
+                  >
+                    {`${result}`}
+                  </Typography>
+                )}
+              </Paper>
+            </Box>
+          </Grid2>
         </Grid2>
-        <Grid2 xs={2}>
-          <FormControl fullWidth>
-            <NativeSelect
-              input={<OutlinedInput />}
-              defaultValue={""}
-              inputProps={{
-                name: "operation",
-                id: "operation",
-              }}
-              onChange={handleChange}
-            >
-              <option value="">Op</option>
-              <option value={"add"}>+</option>
-              <option value={"subtract"}>-</option>
-              <option value={"multiply"}>*</option>
-              <option value={"divide"}>/</option>
-            </NativeSelect>
-          </FormControl>
-        </Grid2>
-        <Grid2 xs={5}>
-          <FormControl fullWidth>
-            <TextField
-              id="second"
-              label="Second Number"
-              variant="outlined"
-              onChange={handleInput}
-              value={value.second}
-            />
-          </FormControl>
-        </Grid2>
-        <Grid2 xs={12}>
-          <FormControl fullWidth>
-            <Button variant="contained" type="submit">
-              Calculate
-            </Button>
-          </FormControl>
-        </Grid2>
-        <Grid2 xs={12}>
-          <Divider />
-        </Grid2>
-        <Grid2 xs={12}>
-          <Box>
-            <Paper>
-              {result && (
-                <Typography
-                  id="result"
-                  data-testid="result"
-                  align="center"
-                  variant="h3"
-                  gutterBottom
-                  role="heading"
-                  aria-level="3"
-                >
-                  {`${result}`}
-                </Typography>
-              )}
-            </Paper>
-          </Box>
-        </Grid2>
-      </Grid2>
-    </form>
+      </form>
+    </>
   )
 }
 export default Calculator

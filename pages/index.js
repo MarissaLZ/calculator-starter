@@ -1,9 +1,12 @@
 import { Typography, Container, Stack } from "@mui/material"
-import Calculator from "../components/calculator"
-
+import Calculator from "../components/Calculator"
 import Link from "next/link"
+import TestButton from "../components/TestButton"
+import { useState } from "react"
 
 export default function Home() {
+  const [isToggled, setIsToggled] = useState(false)
+
   return (
     <>
       <Container maxWidth="sm">
@@ -19,6 +22,11 @@ export default function Home() {
           Test Route
         </Typography>
       </Link>
+      <TestButton
+        isToggled={isToggled}
+        setIsToggled={setIsToggled}
+        text="This is a test button for passing props"
+      />
     </>
   )
 }
