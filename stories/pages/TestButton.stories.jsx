@@ -9,7 +9,7 @@ export default {
   /* 👇 The title prop is optional.
    * See https://storybook.js.org/docs/react/configure/overview#configure-story-loading
    */
-  // title: "Pages/Home/TestButton",
+  title: "Components/TestButton",
   component: TestButton,
   argTypes: {
     setIsToggled: { action: "click" },
@@ -29,8 +29,10 @@ export const ClickedButton = Template.bind({})
 ClickedButton.args = { text: "test button" }
 
 //test will appear in storybook
-ClickedButton.play = async ({ canvasElement }) => {
+ClickedButton.play = async ({ args, canvasElement }) => {
   const canvas = within(canvasElement)
   await userEvent.click(canvas.getByTestId("testBttn"))
-  await expect(canvas.getByText("test button")).toBeInTheDocument()
+
+  // await expect(canvas.getByText("test button")).toBeInTheDocument())
+  await expect(args.setIsToggled).toHaveBeenCalled()
 }

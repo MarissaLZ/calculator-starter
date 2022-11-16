@@ -1,4 +1,8 @@
 module.exports = {
+  staticDirs: ["../public"],
+  features: {
+    interactionsDebugger: true,
+  },
   stories: [
     "../stories/**/*.stories.mdx",
     "../stories/**/*.stories.@(js|jsx|ts|tsx)",

@@ -41,6 +41,7 @@ const Calculator = () => {
         console.log("res.data.result", res.data.result)
       })
       .catch((err) => {
+        console.log("err", err)
         err.response.data.message
           ? setResult(err.response.data.message)
           : setResult(err.message)
