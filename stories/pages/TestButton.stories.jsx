@@ -4,6 +4,24 @@ import { action } from "@storybook/addon-actions"
 import { within, userEvent } from "@storybook/testing-library"
 import { expect } from "@storybook/jest"
 
+const center = (Story) => {
+  return (
+    <div
+      style={{
+        margin: "0 auto",
+        maxWidth: "300px",
+        border: "2px solid red",
+        textAlign: "center",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <Story />
+    </div>
+  )
+}
 //defining story
 export default {
   /* 👇 The title prop is optional.
@@ -15,6 +33,7 @@ export default {
     setIsToggled: { action: "click" },
     isToggled: { control: "boolean" },
   },
+  decorators: [center],
 }
 
 const Template = (args) => <TestButton {...args} />

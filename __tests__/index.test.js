@@ -129,7 +129,7 @@ describe("add functionality", () => {
   test("adds null and a number", () => {
     expect(() => add(null, 1)).toThrow()
   })
-  test("thows error when adding empty strings", () => {
+  test("throws error when adding empty strings", () => {
     expect(() => {
       add("", "")
     }).toThrow()
@@ -149,7 +149,7 @@ describe("subtraction functionality", () => {
   test("subtracts null from a number", () => {
     expect(() => subtract(10, null)).toThrow()
   })
-  test("trhows error when subtracting empty strings", () => {
+  test("throws error when subtracting empty strings", () => {
     expect(() => {
       subtract("", "")
     }).toThrow()

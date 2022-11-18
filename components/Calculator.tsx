@@ -12,27 +12,29 @@ import {
 } from "@mui/material"
 import { OutlinedInput } from "@mui/material"
 import axios from "axios"
-import { useState } from "react"
+import { useState, ChangeEvent, FormEvent } from "react"
 
 const Calculator = () => {
   const [operation, setOperation] = useState("")
   const [result, setResult] = useState("")
   const [value, setValue] = useState({ first: "", second: "" })
-  const handleChange = (e) => {
+
+  //Cast event.target to the appropriate HTML element to ensure
+  // it is HTMLSelectElement which does have a value property:
+  const handleChange = (e: ChangeEvent<HTMLSelectElement>): void => {
     setOperation(e.target.value)
   }
-  const handleInput = (e) => {
+  const handleInput = (e: ChangeEvent<HTMLInputElement>): void => {
     setValue({ ...value, [e.target.id]: e.target.value })
   }
 
-  const handleCalculate = (e) => {
+  const handleCalculate = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
     const query = {
       operation: operation,
       first: value.first,
       second: value.second,
     }
-
     axios
       .get(`/api/calculate/${query.operation}/${query.first}/${query.second}`)
       .then((res) => {
@@ -114,9 +116,8 @@ const Calculator = () => {
                     variant="h3"
                     gutterBottom
                     role="heading"
-                    aria-level="3"
                   >
-                    {`${result}`}
+                    {result}
                   </Typography>
                 )}
               </Paper>

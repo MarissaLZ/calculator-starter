@@ -1,6 +1,12 @@
 import React from "react"
 // import { Button } from "@mui/material"
-const TestButton = ({ isToggled, setIsToggled, text }) => {
+
+interface TestButtonProps {
+  isToggled: boolean
+  setIsToggled: (value: boolean) => void
+  text: string
+}
+const TestButton = ({ isToggled, setIsToggled, text }: TestButtonProps) => {
   return (
     <button
       data-testid="testBttn"

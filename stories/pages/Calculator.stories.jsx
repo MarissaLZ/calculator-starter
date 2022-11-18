@@ -25,6 +25,7 @@ export default {
           const splitParams = req.params[0].split("/")
           const params = splitParams.filter((param) => param != "")
           console.log("params", params)
+          //["add", "1", "2"]
 
           if (params.length !== 3) {
             return res(
@@ -73,6 +74,7 @@ InteractiveTest.play = async ({ parameters, canvasElement }) => {
     expect(canvas.getByTestId("result")).toHaveTextContent("okay")
   })
 }
+//should I add a toThrow???????
 export const NoParamsTest = Template.bind({})
 NoParamsTest.play = async ({ canvasElement }) => {
   const canvas = within(canvasElement)
