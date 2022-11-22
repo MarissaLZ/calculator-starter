@@ -1,5 +1,5 @@
 import { Typography, Container, Stack } from "@mui/material"
-import Calculator from "../components/Calculator"
+import { Calculator } from "../components/Calculator"
 import Link from "next/link"
 import TestButton from "../components/TestButton"
 import Heading from "../components/Heading"
@@ -26,7 +26,7 @@ export default function Home() {
           <Calculator />
         </Stack>
       </Container>
-      <Link href="/test">
+      <Link href="/dogForm">
         <Typography variant="h4" sx={{ color: "white" }}>
           Test Route
         </Typography>

@@ -2,10 +2,22 @@ import { add, subtract, multiply, divide } from "../../../utils/calculate"
 import { NextApiRequest } from "next"
 import { NextApiResponse } from "next"
 
+export type RequestObj = {
+  method: string
+  query: { params: string[] }
+}
+
+export type ResponseObj = {
+  _status: null
+  _json: null
+  status: Function
+  json: Function
+}
+
 //function handler does not return anything
 export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
+  req: NextApiRequest | RequestObj,
+  res: NextApiResponse | ResponseObj
 ): void {
   try {
     if (req.method !== "GET") {
@@ -16,6 +28,7 @@ export default function handler(
     // console.log("req", req)
     // console.log("req.query.params", req.query.params) //[ 'add', '3', '1' ]
 
+    //nextApiRequest likely can have type string, string[]
     const queryParams = req.query.params
 
     // prevents queryParams for being a string or undefined an ensure it is only an array

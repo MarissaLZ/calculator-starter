@@ -1,10 +1,10 @@
 import * as React from "react"
 import "@testing-library/jest-dom"
-import { expect, jest, test, mockImplementationOnce } from "@jest/globals"
+import { expect, jest, test } from "@jest/globals"
 import { render, screen, fireEvent, act, waitFor } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { add, subtract, multiply, divide } from "../utils/calculate"
-import Calculator from "../components/Calculator"
+import { Calculator } from "../components/Calculator"
 import Home from "../pages/index"
 //import axios from "axios"
 import TestButton from "../components/TestButton"
@@ -24,25 +24,27 @@ afterEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
 //this is not a good approach and is not unit  testing
-test("loading result", async () => {
-  render(<Calculator />)
-  const addOperation = screen.getByRole("option", { name: "+" })
-  const firstNum = screen.getByLabelText("First Number")
-  const secondNum = screen.getByLabelText("Second Number")
-  //must add the frist and second number and operation
-  // fireEvent.change(addOperation, {
-  //   target: { value: "add" },
-  // })
-  // fireEvent.change(firstNum, { target: { value: "2" } })
-  // fireEvent.change(secondNum, { target: { value: "1" } })
-  // fireEvent.click(screen.getByTestId("calcBttn"))
-  // await waitFor(() => screen.findByTestId("result"))
-  // expect(screen.findByTestId("result")).toHaveTextContent("3")
+describe("mock api response", () => {
+  test("loading result", async () => {
+    render(<Calculator />)
+    const addOperation = screen.getByRole("option", { name: "+" })
+    const firstNum = screen.getByLabelText("First Number")
+    const secondNum = screen.getByLabelText("Second Number")
+    //must add the frist and second number and operation
+    // fireEvent.change(addOperation, {
+    //   target: { value: "add" },
+    // })
+    // fireEvent.change(firstNum, { target: { value: "2" } })
+    // fireEvent.change(secondNum, { target: { value: "1" } })
+    // fireEvent.click(screen.getByTestId("calcBttn"))
+    // await waitFor(() => screen.findByTestId("result"))
+    // expect(screen.findByTestId("result")).toHaveTextContent("3")
 
-  await userEvent.click(screen.getByTestId("calcBttn"))
-  setTimeout(() => {
-    expect(screen.findByTestId("result")).toHaveTextContet("3")
-  }, 1000)
+    await userEvent.click(screen.getByTestId("calcBttn"))
+    setTimeout(() => {
+      expect(screen.findByTestId("result")).toHaveTextContent("3")
+    }, 1000)
+  })
 })
 
 //forgot to import jest-dom
@@ -68,6 +70,7 @@ describe("Calculator Component", () => {
     //expect(screen.getByTestId("result")).toBeInTheDocument()
   })
 })
+
 describe("TestButton Component", () => {
   test("passing props", () => {
     render(<TestButton text="testing passing props" />)

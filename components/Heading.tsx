@@ -3,6 +3,7 @@ import React from "react"
 
 interface HeadingProps {
   label: string
+  // level: string
   level: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" //why?
   margin: string
   color: string

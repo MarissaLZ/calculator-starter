@@ -14,7 +14,7 @@ import { OutlinedInput } from "@mui/material"
 import axios from "axios"
 import { useState, ChangeEvent, FormEvent } from "react"
 
-const Calculator = () => {
+export const Calculator = () => {
   const [operation, setOperation] = useState("")
   const [result, setResult] = useState("")
   const [value, setValue] = useState({ first: "", second: "" })
@@ -128,4 +128,3 @@ const Calculator = () => {
     </>
   )
 }
-export default Calculator

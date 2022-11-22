@@ -1,8 +1,8 @@
 // @ts-check
 //end2end testing simulates a user interacting with the application
-//Ig u want you can add another pg and navigate back and forth and make sure it navigates
 
-const { test, expect } = require("@playwright/test")
+//const { test, expect } = require("@playwright/test")
+import { test, expect } from "@playwright/test"
 
 test(" calculator multiply", async ({ page }) => {
   //user navigates to home pg

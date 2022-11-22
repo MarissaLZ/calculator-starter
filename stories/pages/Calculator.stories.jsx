@@ -95,7 +95,7 @@ InvalidParamsLength.play = async ({ canvasElement }) => {
   await userEvent.click(calculateButton)
   await waitFor(() => {
     expect(canvas.getByTestId("result")).toHaveTextContent(
-      "did not receive expected params"
+      "did not receive expected number of params. Got 4,5"
     )
   })
 }
