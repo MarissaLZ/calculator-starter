@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { fetchDogFacts } from "../dogFactsFetch"
 import { Form } from "../components/Form"
-import { Fact } from "../components/fact"
+import { Fact } from "../components/Fact"
 
 export type DogFactType = {
   id: number

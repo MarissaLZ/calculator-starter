@@ -1,7 +1,6 @@
 //testing an api
 
 import { test, expect } from "@playwright/test"
-//const { test, expect } = require("@playwright/test")
 
 test.describe("api testing", () => {
   test("api get request with addition", async ({ request }) => {
